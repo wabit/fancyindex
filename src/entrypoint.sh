@@ -11,7 +11,14 @@ fi
 
 if [ "$1" = 'app' ]; then
     /bin/run-parts --verbose --regex '\.(sh)$' "/usr/share/docker-entrypoint.pre"
-    cp /theme/Nginx-Fancyindex-Theme/mdl/color/$COLOR.min.css /theme/Nginx-Fancyindex-Theme/mdl/material.min.css
+    if [ $THEME_NAME == "fraoustin" ]; then
+        cp /theme/fraoustin/mdl/color/$COLOR.min.css /theme/fraoustin/mdl/material.min.css
+        ln -s /theme/fraoustin/ /theme/Nginx-Fancyindex-Theme
+     elif [ $THEME_NAME == "naereen" ] && [ $COLOR == "dark" ]; then
+        ln -s /theme/naereen/Nginx-Fancyindex-Theme-dark /theme/Nginx-Fancyindex-Theme
+     elif [ $THEME_NAME == "naereen" ] && [ $COLOR == "light" ]; then
+        ln -s /theme/naereen/Nginx-Fancyindex-Theme-light /theme/Nginx-Fancyindex-Theme
+    fi
     nginx -g "daemon off;"
     /bin/run-parts --verbose --regex '\.(sh)$' "/usr/share/docker-entrypoint.post"
 fi
